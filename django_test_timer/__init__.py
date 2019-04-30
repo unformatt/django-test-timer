@@ -1,4 +1,5 @@
 import time, unittest
+from math import floor
 from django.conf import settings
 from django.test.runner import DiscoverRunner
 from unittest.runner import TextTestResult
@@ -25,21 +26,21 @@ class TimeLoggingTestResult(TextTestResult):
 class TimedUnitTestRunner(unittest.TextTestRunner):
 
     def __init__(self, *args, **kwargs):
-        self.slow_test_threshold = float(getattr(settings, 'TIMED_TEST_THRESHOLD_SECS', 0.0))
         kwargs['resultclass'] = TimeLoggingTestResult
         return super(TimedUnitTestRunner, self).__init__(*args, **kwargs)
 
     def run(self, test):
         result = super(TimedUnitTestRunner, self).run(test)
-        self.stream.writeln("\nTest Times (>{:.03}s):".format(self.slow_test_threshold))
+        slow_test_threshold = float(getattr(settings, 'TIMED_TEST_THRESHOLD_SECS', 0.0))
+        self.stream.writeln("\nTest Times (>%s):" % human_time(slow_test_threshold))
         has_slow = False
 
         # sort slowest to fastest
         result.test_timings.sort(key=lambda x: x[1], reverse=True)
 
         for name, elapsed in result.test_timings:
-            if elapsed > self.slow_test_threshold:
-                self.stream.writeln("  [{:.03}s] {}".format(round(elapsed, 3), name))
+            if elapsed > slow_test_threshold:
+                self.stream.writeln("  [%s] %s" % (human_time(elapsed), name))
                 has_slow = True
 
         if not has_slow:
@@ -57,3 +58,10 @@ class TimedTestRunner(DiscoverRunner):
 
     def get_resultclass(self):
         return TimeLoggingTestResult
+
+
+def human_time(seconds):
+    human = '%ss' % round(seconds, 2)
+    if seconds > 60:
+        human = '%sm%ss' % (int(floor(seconds / 60)), int(seconds % 60))
+    return human
