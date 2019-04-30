@@ -1,2 +1,3 @@
-# django-timed-tests
-Print list of slow-running tests in Django
+# django-test-timer
+
+Print the amount of time that each unit test took
