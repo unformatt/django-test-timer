@@ -31,7 +31,7 @@ class TimedUnitTestRunner(unittest.TextTestRunner):
 
     def run(self, test):
         result = super(TimedUnitTestRunner, self).run(test)
-        self.stream.writeln("\nTests Times (>{:.03}s):".format(self.slow_test_threshold))
+        self.stream.writeln("\nTest Times (>{:.03}s):".format(self.slow_test_threshold))
         has_slow = False
 
         # sort slowest to fastest
