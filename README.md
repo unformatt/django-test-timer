@@ -10,6 +10,6 @@ Tested with Django 1.11, Python 2.7
 
 Then in your Django settings
 
-```
+```python
 TEST_RUNNER = 'django_test_timer.TimedTestRunner'
 ```
