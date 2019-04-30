@@ -14,6 +14,8 @@ Then in your Django settings
 TEST_RUNNER = 'django_test_timer.TimedTestRunner'
 ```
 
+Then run your tests as usual.
+
 ## Settings
 
 By default, all tests will be printed. To only print tests that take a certain amount of time, set the threshold in your settings.py
@@ -25,6 +27,8 @@ TIMED_TEST_THRESHOLD_SECS = 2.0
 ## Example Output
 
 ```
+>>> ./manage.py test
+....
 ----------------------------------------------------------------------
 Ran 5 tests
 
