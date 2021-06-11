@@ -24,6 +24,7 @@ class TimeLoggingTestResult(TextTestResult):
 
 # Django agnostic
 class TimedUnitTestRunner(unittest.TextTestRunner):
+
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('resultclass', TimeLoggingTestResult)
         return super(TimedUnitTestRunner, self).__init__(*args, **kwargs)
