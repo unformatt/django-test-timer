@@ -26,7 +26,7 @@ class TimeLoggingTestResult(TextTestResult):
 class TimedUnitTestRunner(unittest.TextTestRunner):
 
     def __init__(self, *args, **kwargs):
-        kwargs['resultclass'] = TimeLoggingTestResult
+        kwargs.setdefault('resultclass', TimeLoggingTestResult)
         return super(TimedUnitTestRunner, self).__init__(*args, **kwargs)
 
     def run(self, test):
